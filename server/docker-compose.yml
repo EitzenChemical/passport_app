@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
 
-  betbrouapi:
+  passportapi:
     image: ${DOCKER_REGISTRY-}passportapi
     build:
       context: .
       dockerfile: PassportRequestApi/Dockerfile
     container_name: passportapi
     depends_on: 
-      - "mssql-db"
+      - "db"
     ports:
       - '2004:2004'
     networks:
@@ -23,9 +23,9 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  db:
+  mssqldb:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql-db
+    container_name: mssqldb
     ports:
       - "1433:1433"
     environment:
