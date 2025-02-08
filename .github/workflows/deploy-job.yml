@@ -1,4 +1,4 @@
-name: passportapp-runner
+name: passportapi-runner
 
 on:
   push:
