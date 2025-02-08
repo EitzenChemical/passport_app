@@ -9,7 +9,7 @@ services:
       dockerfile: PassportRequestApi/Dockerfile
     container_name: passportapi
     depends_on: 
-      - "db"
+      - "mssqldb"
     ports:
       - '2004:2004'
     networks:
