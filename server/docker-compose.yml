@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+
+  betbrouapi:
+    image: ${DOCKER_REGISTRY-}passportapi
+    build:
+      context: .
+      dockerfile: PassportRequestApi/Dockerfile
+    container_name: passportapi
+    depends_on: 
+      - "mssql-db"
+    ports:
+      - '2004:2004'
+    networks:
+        - passport-network
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:2004
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-db
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "zyasevry"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
