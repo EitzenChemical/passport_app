@@ -27,7 +27,7 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "zyasevry"
+      SA_PASSWORD: "Faridun1488!"
       ACCEPT_EULA: "Y"
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
