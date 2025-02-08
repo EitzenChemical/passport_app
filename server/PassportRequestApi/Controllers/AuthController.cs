@@ -9,6 +9,7 @@ public class AuthController(DatabaseService databaseService) : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     {
+
         var user = await databaseService.AuthenticateUserAsync(loginRequest.Email, loginRequest.Password);
         if (user != null)
         {
