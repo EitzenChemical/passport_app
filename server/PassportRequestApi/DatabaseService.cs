@@ -17,20 +17,20 @@ public class PassportServiceDbContext : DbContext
 public class User
 {
     [JsonIgnore]
-    public int UserId { get; set; }
-    public string FullName { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public int? UserId { get; set; }
+    public string? FullName { get; set; }
+    public DateTime? DateOfBirth { get; set; }
     public int? PassportSeries { get; set; }
     public int? PassportNumber { get; set; }
-    public string PasswordHash { get; set; }
+    public string? PasswordHash { get; set; }
 }
 
 public class Application
 {
-    public int ApplicationId { get; set; }
-    public int UserId { get; set; }
-    public DateTime DateSubmitted { get; set; }
-    public string Reason { get; set; }
-    public string Status { get; set; }
-    public byte[] DocumentPhoto { get; set; }
+    public int? ApplicationId { get; set; }
+    public int? UserId { get; set; }
+    public DateTime? DateSubmitted { get; set; }
+    public string? Reason { get; set; }
+    public string? Status { get; set; }
+    public byte[]? DocumentPhoto { get; set; } = [];
 }
