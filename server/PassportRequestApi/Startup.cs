@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+
 namespace PassportRequestApi;
 
 public class Startup(IConfiguration configuration)
@@ -6,7 +10,18 @@ public class Startup(IConfiguration configuration)
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(new DatabaseService(Configuration.GetConnectionString("DefaultConnection")));
+        services.AddDbContext<PassportServiceDbContext>();
+
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Passport Service API", Version = "v1" });
+
+            // Включение XML комментариев
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+        });
+
         services.AddControllers();
     }
 
@@ -18,6 +33,14 @@ public class Startup(IConfiguration configuration)
         }
 
         app.UseRouting();
+
+        app.UseSwagger();
+
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Passport Service API v1");
+            c.RoutePrefix = "swagger";
+        });
 
         app.UseEndpoints(endpoints =>
         {

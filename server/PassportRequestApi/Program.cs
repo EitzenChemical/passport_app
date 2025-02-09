@@ -6,7 +6,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        CreateHostBuilder(args).Build().Run();
+        var app = CreateHostBuilder(args).Build();
+
+        app.Run();
     }
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -14,5 +16,6 @@ public class Program
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
+                //webBuilder.UseUrls("http://*:2004");
             });
 }
