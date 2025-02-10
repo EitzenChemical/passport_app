@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+п»їusing Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
@@ -17,7 +17,7 @@ public class PassportServiceDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Конвертер для работы с List<byte[]> в формате JSON
+        // РљРѕРЅРІРµСЂС‚РµСЂ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ List<byte[]> РІ С„РѕСЂРјР°С‚Рµ JSON
         var converter = new ValueConverter<List<byte[]>, string>(
             v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
             v => JsonSerializer.Deserialize<List<byte[]>>(v, new JsonSerializerOptions()) ?? new List<byte[]>()

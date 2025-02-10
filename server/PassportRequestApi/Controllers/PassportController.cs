@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+п»їusing Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ public class PassportController : ControllerBase
         _context = context;
     }
 
-    // Получить все заявки пользователя
+    // РџРѕР»СѓС‡РёС‚СЊ РІСЃРµ Р·Р°СЏРІРєРё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     [HttpGet("user/{userId}")]
     public IActionResult GetUserApplications(int userId)
     {
@@ -27,25 +27,25 @@ public class PassportController : ControllerBase
         return Ok(applications);
     }
 
-    // Создать новую заявку
+    // РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ Р·Р°СЏРІРєСѓ
     [HttpPost]
     public IActionResult CreateApplication([FromBody] Application application)
     {
         application.DateSubmitted = DateTime.Now;
-        application.Status = "На рассмотрении";
+        application.Status = "РќР° СЂР°СЃСЃРјРѕС‚СЂРµРЅРёРё";
         _context.Applications.Add(application);
         _context.SaveChanges();
         return CreatedAtAction(nameof(GetUserApplications), new { userId = application.UserId }, application);
     }
 
-    // Метод для логина пользователя
+    // РњРµС‚РѕРґ РґР»СЏ Р»РѕРіРёРЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
     [HttpPost("login")]
     public IActionResult Login([FromBody] User loginData)
     {
         var user = _context.Users.FirstOrDefault(u => u.FullName == loginData.FullName);
         if (user == null || user.PasswordHash != loginData.PasswordHash)
         {
-            return Unauthorized("Неверное имя пользователя или пароль.");
+            return Unauthorized("РќРµРІРµСЂРЅРѕРµ РёРјСЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР»Рё РїР°СЂРѕР»СЊ.");
         }
         return Ok(user.UserId);
     }
