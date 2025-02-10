@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 public class PassportServiceDbContext : DbContext
@@ -11,6 +13,20 @@ public class PassportServiceDbContext : DbContext
     {
         //optionsBuilder.UseSqlServer("Server=mssqldb,1433;Database=PassportRequestDB;User Id=sa;Password=Faridun1488!;TrustServerCertificate=True;");
         optionsBuilder.UseSqlServer("Server=62.60.234.81,1433;Database=PassportRequestDB;User Id=sa;Password=Faridun1488!;TrustServerCertificate=True;");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Конвертер для работы с List<byte[]> в формате JSON
+        var converter = new ValueConverter<List<byte[]>, string>(
+            v => JsonSerializer.Serialize(v, (JsonSerializerOptions?)null),
+            v => JsonSerializer.Deserialize<List<byte[]>>(v, new JsonSerializerOptions()) ?? new List<byte[]>()
+        );
+
+        modelBuilder.Entity<Application>()
+            .Property(a => a.DocumentPhotos)
+            .HasConversion(converter)
+            .HasColumnType("NVARCHAR(MAX)");
     }
 }
 
@@ -32,5 +48,5 @@ public class Application
     public DateTime? DateSubmitted { get; set; }
     public string? Reason { get; set; }
     public string? Status { get; set; }
-    public byte[]? DocumentPhoto { get; set; } = [];
+    public List<byte[]>? DocumentPhotos { get; set; } = [];
 }
